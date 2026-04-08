@@ -15,10 +15,18 @@ import logging
 import sys
 from pathlib import Path
 
-from .models import launch_payload_json_schema
-from .orchestrator import run_war_room, save_output
-from .report_html import write_war_room_html
-from .scenarios import resolve_scenario
+if __package__ in (None, ""):
+    # Allow direct script execution: `python src/main.py`.
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    from src.models import launch_payload_json_schema
+    from src.orchestrator import run_war_room, save_output
+    from src.report_html import write_war_room_html
+    from src.scenarios import resolve_scenario
+else:
+    from .models import launch_payload_json_schema
+    from .orchestrator import run_war_room, save_output
+    from .report_html import write_war_room_html
+    from .scenarios import resolve_scenario
 
 
 def _project_root() -> Path:
