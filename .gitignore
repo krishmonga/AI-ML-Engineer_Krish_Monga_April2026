@@ -6,4 +6,5 @@ venv/
 .env
 outputs/*.json
 outputs/*.yaml
+!outputs/launch_decision.json
 !.gitkeep

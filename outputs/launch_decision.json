@@ -1,0 +1,491 @@
+{
+  "decision": "Roll Back",
+  "rationale": {
+    "key_drivers": [
+      "Crash rate breached launch gate and is trending up (see crash_rate_pct).",
+      "Payment success below gate / declining (see payment_success_pct).",
+      "API p95 latency regressed beyond 15% vs early-window baseline (release gate).",
+      "Support ticket volume exceeded 1.4\u00d7 baseline vs early window (release gate)."
+    ],
+    "metric_references": [
+      "latest_day.crash_rate_pct=0.35",
+      "latest_day.payment_success_pct=97.2",
+      "latest_day.api_p95_ms=330.0",
+      "latest_day.support_tickets=118.0"
+    ],
+    "feedback_summary": "11 negative-leaning / 12 positive-leaning / 17 neutral (heuristic)",
+    "top_feedback_themes": [
+      {
+        "theme": "smart_tasks_stability",
+        "mentions": 11
+      },
+      {
+        "theme": "payments",
+        "mentions": 5
+      },
+      {
+        "theme": "migration_ux",
+        "mentions": 4
+      },
+      {
+        "theme": "latency_api",
+        "mentions": 3
+      },
+      {
+        "theme": "comms_expectations",
+        "mentions": 3
+      }
+    ]
+  },
+  "risk_register": [
+    {
+      "risk": "Stability regressions on Smart Tasks surface",
+      "mitigation": "Hotfix crash + reduce rollout %; daily crash review with mobile lead.",
+      "severity": "high"
+    },
+    {
+      "risk": "Payment reliability perception",
+      "mitigation": "Incident channel with PSP; proactive retries audit; customer comms template.",
+      "severity": "high"
+    },
+    {
+      "risk": "Narrative drift on recurring theme: smart_tasks_stability",
+      "mitigation": "Align external messaging with verified fixes; publish known issues with ETA.",
+      "severity": "medium"
+    },
+    {
+      "risk": "p95 latency late (270.7143 ms) vs early (186.4286 ms)",
+      "mitigation": "Instrument metric owner review; add dashboard alert.",
+      "severity": "medium"
+    }
+  ],
+  "action_plan_24_48h": [
+    {
+      "action": "Execute controlled roll back to prior stable build for affected cohorts",
+      "owner": "Release Manager",
+      "priority": "P0"
+    },
+    {
+      "action": "Freeze rollout increase; hold current exposure until stability review",
+      "owner": "PM + SRE",
+      "priority": "P0"
+    },
+    {
+      "action": "Ship targeted crash fix for Smart Tasks; canary 5% before wider ramp",
+      "owner": "Mobile Platform",
+      "priority": "P0"
+    },
+    {
+      "action": "Payment path deep dive: trace failures, add synthetic checks",
+      "owner": "Payments Team",
+      "priority": "P0"
+    },
+    {
+      "action": "Update support macros + status page; align comms with verified facts",
+      "owner": "Marketing/Comms",
+      "priority": "P1"
+    }
+  ],
+  "communication_plan": {
+    "internal": "War-room decision: Roll Back. Share quant summary + top themes; no external promises until engineering confirms ETAs.",
+    "external": "Acknowledge reports of stability issues; share that we are prioritizing fixes; link to status page if incident declared.",
+    "talking_points": [
+      "11 negative-leaning / 12 positive-leaning / 17 neutral (heuristic)",
+      "We are monitoring crash rate, latency, and payment success against explicit launch gates."
+    ]
+  },
+  "confidence": {
+    "score": 0.72,
+    "what_would_increase_confidence": [
+      "7-day stable crash rate under gate with no payment regression",
+      "Repeated negative theme mentions drop after hotfix",
+      "p95 latency returns within 15% of pre-release baseline"
+    ]
+  },
+  "trace": {
+    "agents": {
+      "data_analyst": {
+        "agent_id": "data_analyst",
+        "role": "Data Analyst",
+        "summary": "Analyzed 14 days ({'start': '2026-03-26', 'end': '2026-04-08'}). 6 anomaly/regression signal(s).",
+        "tool_calls": [
+          {
+            "tool": "aggregate_launch_metrics",
+            "args": {
+              "path": "D:\\AI-ML-Engineer_Krish_Monga_April2026\\data\\metrics.csv"
+            }
+          },
+          {
+            "tool": "detect_metric_anomalies",
+            "args": {}
+          }
+        ],
+        "evidence": {
+          "aggregate": {
+            "row_count": 14,
+            "date_range": {
+              "start": "2026-03-26",
+              "end": "2026-04-08"
+            },
+            "latest_day": {
+              "signup_conversion_pct": 2.7,
+              "dau": 12950.0,
+              "retention_d7_pct": 40.5,
+              "crash_rate_pct": 0.35,
+              "api_p95_ms": 330.0,
+              "support_tickets": 118.0,
+              "payment_success_pct": 97.2,
+              "feature_funnel_completion_pct": 54.0,
+              "churn_rate_pct": 2.0
+            },
+            "metrics": {
+              "signup_conversion_pct": {
+                "early_mean": 3.1857,
+                "late_mean": 3.0,
+                "delta": -0.1857,
+                "delta_pct": -5.83,
+                "direction": "down"
+              },
+              "dau": {
+                "early_mean": 12232.8571,
+                "late_mean": 12831.4286,
+                "delta": 598.5714,
+                "delta_pct": 4.89,
+                "direction": "up"
+              },
+              "retention_d7_pct": {
+                "early_mean": 42.5,
+                "late_mean": 42.2143,
+                "delta": -0.2857,
+                "delta_pct": -0.67,
+                "direction": "down"
+              },
+              "crash_rate_pct": {
+                "early_mean": 0.0957,
+                "late_mean": 0.2286,
+                "delta": 0.1329,
+                "delta_pct": 138.81,
+                "direction": "up"
+              },
+              "api_p95_ms": {
+                "early_mean": 186.4286,
+                "late_mean": 270.7143,
+                "delta": 84.2857,
+                "delta_pct": 45.21,
+                "direction": "up"
+              },
+              "support_tickets": {
+                "early_mean": 49.7143,
+                "late_mean": 88.4286,
+                "delta": 38.7143,
+                "delta_pct": 77.87,
+                "direction": "up"
+              },
+              "payment_success_pct": {
+                "early_mean": 99.0714,
+                "late_mean": 97.9571,
+                "delta": -1.1143,
+                "delta_pct": -1.12,
+                "direction": "down"
+              },
+              "feature_funnel_completion_pct": {
+                "early_mean": 71.0,
+                "late_mean": 66.2857,
+                "delta": -4.7143,
+                "delta_pct": -6.64,
+                "direction": "down"
+              },
+              "churn_rate_pct": {
+                "early_mean": 0.9429,
+                "late_mean": 1.4857,
+                "delta": 0.5429,
+                "delta_pct": 57.58,
+                "direction": "up"
+              }
+            }
+          },
+          "anomalies": {
+            "flags": [
+              {
+                "type": "crash_regression",
+                "detail": "Crash rate late window (0.2286) >> early (0.0957)",
+                "severity": "high",
+                "metric_refs": [
+                  "crash_rate_pct"
+                ]
+              },
+              {
+                "type": "latency_regression",
+                "detail": "p95 latency late (270.7143 ms) vs early (186.4286 ms)",
+                "severity": "medium",
+                "metric_refs": [
+                  "api_p95_ms"
+                ]
+              },
+              {
+                "type": "payment_success_drift",
+                "detail": "Payment success declining: \u0394%=-1.12",
+                "severity": "high",
+                "metric_refs": [
+                  "payment_success_pct"
+                ]
+              },
+              {
+                "type": "support_volume_spike",
+                "detail": "Support tickets rising: \u0394%=77.87",
+                "severity": "medium",
+                "metric_refs": [
+                  "support_tickets"
+                ]
+              },
+              {
+                "type": "churn_increase",
+                "detail": "Churn rate rising: \u0394%=57.58",
+                "severity": "high",
+                "metric_refs": [
+                  "churn_rate_pct"
+                ]
+              },
+              {
+                "type": "crash_gate_breach",
+                "detail": "Latest crash_rate_pct=0.35 exceeds 0.12% gate",
+                "severity": "high",
+                "metric_refs": [
+                  "crash_rate_pct"
+                ]
+              }
+            ],
+            "summary": "6 anomaly/regression signal(s)"
+          }
+        },
+        "recommendation": "pause_or_roll_back"
+      },
+      "sre": {
+        "agent_id": "sre",
+        "role": "SRE / Reliability",
+        "summary": "SRE health score=100.0/100 (red). Top factors: crash_regression, latency_regression, payment_success_drift, support_volume_spike, churn_increase.",
+        "tool_calls": [
+          {
+            "tool": "compute_sre_health_score",
+            "args": {}
+          },
+          {
+            "tool": "propose_incident_readiness_actions",
+            "args": {
+              "band": "red"
+            }
+          }
+        ],
+        "evidence": {
+          "health": {
+            "score": 100.0,
+            "band": "red",
+            "factors": [
+              "crash_regression",
+              "latency_regression",
+              "payment_success_drift",
+              "support_volume_spike",
+              "churn_increase",
+              "crash_gate_breach",
+              "crash_trend_pct",
+              "payment_trend",
+              "latency_trend"
+            ]
+          },
+          "readiness": {
+            "band": "red",
+            "p0_actions": [
+              "Declare incident commander rotation; freeze non-essential deploys.",
+              "Shard-level traffic shift + progressive delivery off for hot cells.",
+              "Synthetic checks every 5m on payment + core API paths."
+            ],
+            "owner": "SRE On-Call"
+          }
+        },
+        "recommendation": "critical"
+      },
+      "marketing_comms": {
+        "agent_id": "marketing_comms",
+        "role": "Marketing / Comms",
+        "summary": "11 negative-leaning / 12 positive-leaning / 17 neutral (heuristic). Dominant theme cluster: smart_tasks_stability (5 theme buckets hit).",
+        "tool_calls": [
+          {
+            "tool": "summarize_feedback_sentiment",
+            "args": {
+              "count": 40
+            }
+          },
+          {
+            "tool": "extract_recurring_themes",
+            "args": {
+              "count": 40
+            }
+          }
+        ],
+        "evidence": {
+          "sentiment": {
+            "counts": {
+              "positive": 12,
+              "negative": 11,
+              "neutral": 17,
+              "total": 40
+            },
+            "ratios": {
+              "positive": 0.3,
+              "negative": 0.275,
+              "neutral": 0.425
+            },
+            "headline": "11 negative-leaning / 12 positive-leaning / 17 neutral (heuristic)"
+          },
+          "themes": {
+            "themes": [
+              {
+                "theme": "smart_tasks_stability",
+                "mentions": 11
+              },
+              {
+                "theme": "payments",
+                "mentions": 5
+              },
+              {
+                "theme": "migration_ux",
+                "mentions": 4
+              },
+              {
+                "theme": "latency_api",
+                "mentions": 3
+              },
+              {
+                "theme": "comms_expectations",
+                "mentions": 3
+              }
+            ],
+            "exemplars": {
+              "migration_ux": "fb-001: Love the new checklist \u2014 onboarding feels faster.",
+              "smart_tasks_stability": "fb-003: App crashed when I opened the new Smart Tasks panel twice.",
+              "payments": "fb-006: Payment failed once then worked. Worried about billing.",
+              "latency_api": "fb-009: Error 500 when linking bank \u2014 happened 3 times today.",
+              "comms_expectations": "fb-029: Positive: DAU in our org went up after rollout."
+            },
+            "top_concern": "smart_tasks_stability"
+          }
+        },
+        "recommendation": "external_caution_messaging"
+      },
+      "product_manager": {
+        "agent_id": "product_manager",
+        "role": "Product Manager",
+        "summary": "User-impact framing: latest feature_funnel_completion_pct=54.0. Launch gates: FAIL (4 failed).",
+        "tool_calls": [
+          {
+            "tool": "load_release_notes",
+            "args": {
+              "path": "D:\\AI-ML-Engineer_Krish_Monga_April2026\\data\\release_notes.md"
+            }
+          },
+          {
+            "tool": "evaluate_launch_gates",
+            "args": {}
+          }
+        ],
+        "evidence": {
+          "release_notes_excerpt": "# Release: Smart Tasks (v2.4.0) \u2014 phased rollout 25%\n\n## Summary\nSmart Tasks replaces legacy Quick Shortcuts with a guided checklist experience, deeper reminders integration, and team-sharing templates.\n\n## Success criteria (launch gates)\n- Crash rate remains **\u2264 0.12%** during rollout window\n- API **p95 latency** does not regress more than **15%** vs pre-release baseline\n- **Payment success rate** stays **\u2265 98.5%**\n- **Support ticket volume** not more than **1.4\u00d7** baseline for comparable cohorts\n\n## Known risks\n- Smart Tasks panel is a new native surface; prior beta showed rotation-related crashes on iOS.\n- Heavier client polling may increase perceived latency under load.\n- Migration messaging may confuse users who relied on Quick Shortcuts.\n\n## Known issues (non-blocking)\n- Help link fr",
+          "gates": {
+            "gate_results": [
+              {
+                "gate": "crash_rate_max_pct",
+                "threshold": 0.12,
+                "actual": 0.35,
+                "status": "fail"
+              },
+              {
+                "gate": "payment_success_min_pct",
+                "threshold": 98.5,
+                "actual": 97.2,
+                "status": "fail"
+              },
+              {
+                "gate": "api_p95_max_regression_ratio",
+                "threshold": 1.15,
+                "actual": 1.4521,
+                "status": "fail",
+                "detail": "late_mean=270.7143 vs early_mean=186.4286"
+              },
+              {
+                "gate": "support_tickets_max_surge_ratio",
+                "threshold": 1.4,
+                "actual": 1.7787,
+                "status": "fail",
+                "detail": "late_mean=88.4286 vs early_mean=49.7143"
+              }
+            ],
+            "all_pass": false,
+            "failed_gates": [
+              {
+                "gate": "crash_rate_max_pct",
+                "threshold": 0.12,
+                "actual": 0.35,
+                "status": "fail"
+              },
+              {
+                "gate": "payment_success_min_pct",
+                "threshold": 98.5,
+                "actual": 97.2,
+                "status": "fail"
+              },
+              {
+                "gate": "api_p95_max_regression_ratio",
+                "threshold": 1.15,
+                "actual": 1.4521,
+                "status": "fail",
+                "detail": "late_mean=270.7143 vs early_mean=186.4286"
+              },
+              {
+                "gate": "support_tickets_max_surge_ratio",
+                "threshold": 1.4,
+                "actual": 1.7787,
+                "status": "fail",
+                "detail": "late_mean=88.4286 vs early_mean=49.7143"
+              }
+            ]
+          }
+        },
+        "recommendation": "no_go_gates_failed"
+      },
+      "risk_critic": {
+        "agent_id": "risk_critic",
+        "role": "Risk / Critic",
+        "summary": "Cross-functional critique: Explicit launch gates failed on latest day \u2014 do not over-index on DAU growth.; Multiple high-severity quantitative regressions; variance not explained by seasonality.; SRE health band is red \u2014 treat as production incident until score improves.",
+        "tool_calls": [
+          {
+            "tool": "cross_check_quant_qual_alignment",
+            "args": {
+              "gate_all_pass": false,
+              "high_severity_flag_count": 4,
+              "negative_feedback_ratio": 0.275
+            }
+          }
+        ],
+        "evidence": {
+          "concerns": [
+            "Explicit launch gates failed on latest day \u2014 do not over-index on DAU growth.",
+            "Multiple high-severity quantitative regressions; variance not explained by seasonality.",
+            "SRE health band is red \u2014 treat as production incident until score improves."
+          ],
+          "high_flags_count": 4,
+          "alignment_audit": {
+            "aligned": true,
+            "contradictions": [],
+            "summary": "aligned"
+          }
+        },
+        "recommendation": "prefer_pause_or_roll_back"
+      }
+    },
+    "coordinator": {
+      "policy": "deterministic_merge_v2_sre_full_gates",
+      "final_decision": "Roll Back",
+      "scenario": "default"
+    }
+  }
+}
