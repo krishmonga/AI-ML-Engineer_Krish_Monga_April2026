@@ -1,5 +1,7 @@
 # AI/ML Engineer Assessment — Launch War Room (Assessment 1)
 
+Name : Krish Monga
+
 Multi-agent launch “war room”: **mock dashboard** inputs (metrics CSV, feedback JSON, release notes), **five specialized agents** that **invoke real tools**, and a **validated** structured decision (**Proceed / Pause / Roll Back**) with rationale, risk register, 24–48h action plan, communication plan, and confidence. **No LLM required**; **UI optional** per brief — this repo adds an **optional offline HTML dossier** for demos.
 
 ## What makes this submission stand out
@@ -97,17 +99,8 @@ python -m src.main --export-schema outputs/launch_decision.schema.json --schema-
 python -m src.main --metrics path/to/metrics.csv --feedback path/to/feedback.json --release-notes path/to/release_notes.md
 ```
 
-## Environment variables
-
-No API keys required for the baseline. If you add an LLM later, use env vars only — see `.env.example`.
-
 ## Submission checklist (per brief)
-
-- [x] Mock dashboard: metrics + feedback + release notes  
-- [x] Required agents + coordinator + **extra SRE agent**  
-- [x] ≥2 tools (many more)  
-- [x] Structured output + **schema / validation**  
-- [x] Logs / trace  
+ 
 
 ## License
 
