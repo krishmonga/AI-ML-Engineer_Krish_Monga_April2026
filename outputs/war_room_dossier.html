@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Launch War Room — Proceed</title>
+  <style>
+    :root {
+      --bg: #0c0a14;
+      --card: #161225;
+      --text: #e8e4ff;
+      --muted: #9b92c9;
+      --accent: #8b5cf6;
+      --pass: #34d399;
+      --fail: #fb7185;
+    }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, #2e1064 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 1.5rem; margin: 0; letter-spacing: -0.02em; }
+    .badge {
+      display: inline-block; padding: 0.35rem 0.75rem; border-radius: 999px;
+      font-weight: 600; font-size: 0.85rem;
+      background: rgba(139, 92, 246, 0.25); border: 1px solid rgba(139, 92, 246, 0.5);
+    }
+    .scenario { color: var(--muted); font-size: 0.9rem; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card {
+      background: var(--card); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 1rem 1.1rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    h2 { font-size: 1rem; margin: 0 0 0.75rem; color: var(--muted); font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    th, td { text-align: left; padding: 0.45rem 0.35rem; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+    th { color: var(--muted); font-weight: 500; }
+    .pass { color: var(--pass); font-weight: 600; }
+    .fail { color: var(--fail); font-weight: 600; }
+    .muted { color: var(--muted); font-size: 0.82rem; }
+    pre {
+      margin: 0; padding: 1rem; border-radius: 12px;
+      background: #0f172a; border: 1px solid rgba(255,255,255,0.08);
+      overflow: auto; max-height: 420px; font-size: 0.75rem; color: #cbd5e1;
+    }
+    ul { margin: 0.25rem 0 0 1rem; }
+    .foot { margin-top: 2rem; font-size: 0.8rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Launch war room dossier</h1>
+      <span class="badge">Decision: Proceed</span>
+      <span class="scenario">Scenario: green · confidence 0.78</span>
+    </header>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Crash rate (%)</h2>
+        <svg viewBox="0 0 640 120" width="100%" height="120" role="img" aria-label="sparkline"><polyline fill="none" stroke="#f472b6" stroke-width="2" points="10.0,110.0 57.7,60.0 105.4,110.0 153.1,60.0 200.8,10.0 248.5,60.0 296.2,60.0 343.8,60.0 391.5,60.0 439.2,60.0 486.9,60.0 534.6,60.0 582.3,60.0 630.0,60.0" /></svg>
+        <p class="muted">Dates (sample): 03-26, 03-29, 04-01, 04-04, 04-07</p>
+      </div>
+      <div class="card">
+        <h2>API p95 latency (ms)</h2>
+        <svg viewBox="0 0 640 120" width="100%" height="120" role="img" aria-label="sparkline"><polyline fill="none" stroke="#38bdf8" stroke-width="2" points="10.0,91.8 57.7,110.0 105.4,73.6 153.1,100.9 200.8,82.7 248.5,64.5 296.2,55.5 343.8,46.4 391.5,37.3 439.2,28.2 486.9,19.1 534.6,19.1 582.3,10.0 630.0,10.0" /></svg>
+        <p class="muted">Same window as metrics CSV</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <h2>Launch gates (Product Manager tool output)</h2>
+      <table>
+        <thead><tr><th>Gate</th><th>Threshold</th><th>Actual</th><th>Status</th></tr></thead>
+        <tbody><tr><td>crash_rate_max_pct</td><td>0.12</td><td>0.09</td><td class='pass'>pass</td></tr><tr><td>payment_success_min_pct</td><td>98.5</td><td>99.2</td><td class='pass'>pass</td></tr><tr><td>api_p95_max_regression_ratio</td><td>1.15</td><td>1.0355</td><td class='pass'>pass</td></tr><tr><td>support_tickets_max_surge_ratio</td><td>1.4</td><td>1.1231</td><td class='pass'>pass</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <h2>Rationale (key drivers)</h2>
+      <ul><li>Signals within acceptable band per synthesized agent review.</li></ul>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <h2>Agent timeline &amp; tool calls</h2>
+      <table>
+        <thead><tr><th>#</th><th>Agent</th><th>Tools</th><th>Summary</th></tr></thead>
+        <tbody><tr><td>1</td><td><strong>Data Analyst</strong></td><td class='muted'>aggregate_launch_metrics, detect_metric_anomalies</td><td>Analyzed 14 days ({&#x27;start&#x27;: &#x27;2026-03-26&#x27;, &#x27;end&#x27;: &#x27;2026-04-08&#x27;}). 0 anomaly/regression signal(s).</td></tr><tr><td>2</td><td><strong>SRE / Reliability</strong></td><td class='muted'>compute_sre_health_score, propose_incident_readiness_actions</td><td>SRE health score=0.0/100 (green). Top factors: none.</td></tr><tr><td>3</td><td><strong>Marketing / Comms</strong></td><td class='muted'>summarize_feedback_sentiment, extract_recurring_themes</td><td>0 negative-leaning / 14 positive-leaning / 11 neutral (heuristic). Dominant theme cluster: migration_ux (5 theme buckets hit).</td></tr><tr><td>4</td><td><strong>Product Manager</strong></td><td class='muted'>load_release_notes, evaluate_launch_gates</td><td>User-impact framing: latest feature_funnel_completion_pct=54.0. Launch gates: PASS (0 failed).</td></tr><tr><td>5</td><td><strong>Risk / Critic</strong></td><td class='muted'>cross_check_quant_qual_alignment</td><td>Cross-functional critique: No major contradictions between qual and quant signals.</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <h2>Structured output (JSON)</h2>
+      <pre>{
+  &quot;decision&quot;: &quot;Proceed&quot;,
+  &quot;rationale&quot;: {
+    &quot;key_drivers&quot;: [
+      &quot;Signals within acceptable band per synthesized agent review.&quot;
+    ],
+    &quot;metric_references&quot;: [
+      &quot;latest_day.crash_rate_pct=0.09&quot;,
+      &quot;latest_day.payment_success_pct=99.2&quot;,
+      &quot;latest_day.api_p95_ms=189.0&quot;,
+      &quot;latest_day.support_tickets=54.0&quot;
+    ],
+    &quot;feedback_summary&quot;: &quot;0 negative-leaning / 14 positive-leaning / 11 neutral (heuristic)&quot;,
+    &quot;top_feedback_themes&quot;: [
+      {
+        &quot;theme&quot;: &quot;migration_ux&quot;,
+        &quot;mentions&quot;: 4
+      },
+      {
+        &quot;theme&quot;: &quot;smart_tasks_stability&quot;,
+        &quot;mentions&quot;: 2
+      },
+      {
+        &quot;theme&quot;: &quot;comms_expectations&quot;,
+        &quot;mentions&quot;: 2
+      },
+      {
+        &quot;theme&quot;: &quot;latency_api&quot;,
+        &quot;mentions&quot;: 1
+      },
+      {
+        &quot;theme&quot;: &quot;payments&quot;,
+        &quot;mentions&quot;: 1
+      }
+    ]
+  },
+  &quot;risk_register&quot;: [
+    {
+      &quot;risk&quot;: &quot;Stability regressions on Smart Tasks surface&quot;,
+      &quot;mitigation&quot;: &quot;Hotfix crash + reduce rollout %; daily crash review with mobile lead.&quot;,
+      &quot;severity&quot;: &quot;high&quot;
+    },
+    {
+      &quot;risk&quot;: &quot;Payment reliability perception&quot;,
+      &quot;mitigation&quot;: &quot;Incident channel with PSP; proactive retries audit; customer comms template.&quot;,
+      &quot;severity&quot;: &quot;high&quot;
+    },
+    {
+      &quot;risk&quot;: &quot;Narrative drift on recurring theme: migration_ux&quot;,
+      &quot;mitigation&quot;: &quot;Align external messaging with verified fixes; publish known issues with ETA.&quot;,
+      &quot;severity&quot;: &quot;medium&quot;
+    }
+  ],
+  &quot;action_plan_24_48h&quot;: [
+    {
+      &quot;action&quot;: &quot;Continue phased rollout with enhanced monitoring (crash, p95, payments)&quot;,
+      &quot;owner&quot;: &quot;SRE&quot;,
+      &quot;priority&quot;: &quot;P1&quot;
+    },
+    {
+      &quot;action&quot;: &quot;Publish migration guide for Quick Shortcuts users&quot;,
+      &quot;owner&quot;: &quot;PM + Docs&quot;,
+      &quot;priority&quot;: &quot;P2&quot;
+    }
+  ],
+  &quot;communication_plan&quot;: {
+    &quot;internal&quot;: &quot;War-room decision: Proceed. Share quant summary + top themes; no external promises until engineering confirms ETAs.&quot;,
+    &quot;external&quot;: &quot;Highlight checklist value prop; invite feedback with clear support path.&quot;,
+    &quot;talking_points&quot;: [
+      &quot;0 negative-leaning / 14 positive-leaning / 11 neutral (heuristic)&quot;,
+      &quot;We are monitoring crash rate, latency, and payment success against explicit launch gates.&quot;
+    ]
+  },
+  &quot;confidence&quot;: {
+    &quot;score&quot;: 0.78,
+    &quot;what_would_increase_confidence&quot;: [
+      &quot;7-day stable crash rate under gate with no payment regression&quot;,
+      &quot;Repeated negative theme mentions drop after hotfix&quot;,
+      &quot;p95 latency returns within 15% of pre-release baseline&quot;
+    ]
+  }
+}</pre>
+    </div>
+
+    <p class="foot">
+      Generated locally for PurpleMerit Assessment 1. Open this file in a browser — no network required.
+    </p>
+  </div>
+</body>
+</html>
